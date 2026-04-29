@@ -67,6 +67,36 @@ S3.03-Patterns2/
 └── README.md
 ```
 
+## 🧾 Class Overview
+
+- `App`: entry point that demonstrates menu creation flows from the console.
+- `Dish`: menu item entity (type, name, vegan/gluten-free flags) with input validation.
+
+### FullMenu
+- `FullMenu`: aggregate that stores dishes selected for a full menu flow.
+- `FullMenuBuilder`: progressive fluent builder that enforces valid full-menu order and builds `FullMenu`.
+- `FullStarterStep`: first contract; starts the flow by requiring a starter.
+- `FullStarterOptionsStep`: allows starter flags and transition to main course.
+- `FullMainCourseOptionsStep`: configures main course and enables optional branches (drink/dessert/coffee/garnish/build).
+- `FullDrinkOptionsStep`: branch after choosing drink, with valid next actions only.
+- `FullDessertOptionsStep`: branch after choosing dessert, with valid next actions only.
+- `FullCoffeeOptionsStep`: branch after choosing coffee, with valid next actions only.
+
+### HalfMenu
+- `HalfMenu`: aggregate that stores dishes selected for a half menu flow.
+- `HalfMenuBuilder`: progressive fluent builder for the half-menu sequence.
+- `HalfMenuMainCourseStep`: first contract; requires main course to start.
+- `HalfMenuMainCourseOptionsStep`: configures main course options and transitions.
+- `HalfMenuDrinkOptionsStep`: controls valid actions after selecting drink.
+
+### KidsMenu
+- `KidsMenu`: aggregate that stores dishes selected for a kids menu flow.
+- `KidsMenuBuilder`: progressive fluent builder for kids-menu constraints and order.
+- `KidsMenuMainCourseStep`: first contract; starts with main course.
+- `KidsMenuMainCourseOptionsStep`: configures main course options and next steps.
+- `KidsMenuDrinkOptionsStep`: defines valid actions after choosing drink.
+- `KidsMenuDessertOptionsStep`: defines valid actions after choosing dessert.
+
 ## 🛠 Technologies
 
 - Frontend: N/A
