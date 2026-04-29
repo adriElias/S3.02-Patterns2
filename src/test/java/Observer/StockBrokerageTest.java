@@ -11,6 +11,32 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StockBrokerageTest {
 
+    private void assertContainsAmount(String message, String expectedAmount) {
+        assertTrue(message.replace(',', '.').contains(expectedAmount));
+    }
+
+    @Test
+    @DisplayName("Stores agency name from constructor")
+    void shouldStoreAgencyName() {
+        StockBrokerage brokerage = new StockBrokerage("Alpha Brokers");
+
+        assertEquals("Alpha Brokers", brokerage.getName());
+    }
+
+    @Test
+    @DisplayName("Builds a notification message when notified")
+    void shouldBuildNotificationMessageWhenNotified() {
+        StockBrokerage brokerage = new StockBrokerage("Alpha Brokers");
+
+        brokerage.notify("Stock market", "UP", new BigDecimal("150.75"));
+
+        assertAll(
+                () -> assertTrue(brokerage.getMessage().contains("Alpha Brokers received notification")),
+                () -> assertTrue(brokerage.getMessage().contains("Stock market")),
+                () -> assertContainsAmount(brokerage.getMessage(), "150.75")
+        );
+    }
+
     @Test
     @DisplayName("Notifies all agencies when the market goes up and down")
     void testStockAgentNotifications() {
@@ -65,9 +91,5 @@ class StockBrokerageTest {
                 () -> assertContainsAmount(alphaBrokers.getMessage(), "150.75"),
                 () -> assertEquals(null, zenithInvestments.getMessage())
         );
-    }
-
-    private void assertContainsAmount(String message, String expectedAmount) {
-        assertTrue(message.replace(',', '.').contains(expectedAmount));
     }
 }
